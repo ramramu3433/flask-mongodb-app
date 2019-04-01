@@ -1,0 +1,16 @@
+<html>
+<head>
+Find the total unique products present in our catalogue
+</head>
+<body>
+<ul>
+{% for collection in products %}
+  <li>
+     <a href="/count_product/{{ collection }}"> {{ collection }} </a>
+  </li>
+{% endfor %}
+</ul>
+<div style="color:green" >Please click on the above links to get the stats </div>
+</body>
+</html>
+

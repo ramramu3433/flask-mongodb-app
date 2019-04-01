@@ -1,0 +1,15 @@
+<html>
+<head>
+Total Collections present in mongodb {{ db }}
+</head>
+<body>
+<ul>
+{% for collection in collections %}
+  <li>
+      {{ collection }} 
+  </li>
+{% endfor %}
+</ul>
+</body>
+</html>
+
