@@ -6,9 +6,13 @@ from pymongo import MongoClient
 import os
 
 app=Flask(__name__)
-mongo_url=os.environ.get("MONGO_DB_URI")
+mongo_user=os.environ.get("MONGO_USER")
+mongo_password=os.environ.get("MONGO_PASSWORD")
+mongo_host=os.environ.get("DB_HOST")
+mongo_port=os.environ.get("DB_PORT")
+db_name=os.environ.get("DATABASE")
 
-app.config["MONGO_URI"]=mongo_url
+app.config["MONGO_URI"]="mongodb://{}:{}@{}:{}/{}".format(mongo_user,mongo_password,mongo_host,mongo_port,db_name)
 
 mongo=PyMongo(app)
 
