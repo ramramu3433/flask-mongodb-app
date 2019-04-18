@@ -12,7 +12,8 @@ mongo_host=os.environ.get("DB_HOST")
 mongo_port=os.environ.get("DB_PORT")
 db_name=os.environ.get("DATABASE")
 
-app.config["MONGO_URI"]="mongodb://{}:{}@{}:{}/{}".format(mongo_user,mongo_password,mongo_host,mongo_port,db_name)
+mongo_url="mongodb://{}:{}@{}:{}/{}".format(mongo_user,mongo_password,mongo_host,mongo_port,db_name)
+app.config["MONGO_URI"]=mongo_url
 
 mongo=PyMongo(app)
 
@@ -45,7 +46,8 @@ if __name__=="__main__":
    try: 
      client=MongoClient(mongo_url)
      client.list_databases()
-     users=mongo.db.products
+     print(mongo.db)
+     users=mongo.db.products.catalog
    except Exception as e:
      print("couldn't able to create mongodb collection due the error {}".format(e))
    app.run(port=9000,debug=True)
