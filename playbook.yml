@@ -1,0 +1,38 @@
+\---
+ - hosts: 127.0.0.1
+   tasks:
+    - name: "Create new version folder"
+      file:
+        path: "{{ deployment_folder }}/{{ version }}"
+        state: directory
+    - name: "Copy new version files"
+      copy: 
+        src: .
+        dest: "{{ deployment_folder }}/{{ version }}"
+      notify: server_stop_start
+    - name: "Smoke test"
+      uri: url=http://localhost:9000
+      register: status
+      ignore_errors: True
+    - name: "Success"
+      command: cat "{{ version }}" > "{{ deployment_folder }}"/version
+      when: status.status in [200,201,202,203]
+      ignore_errors: True
+    - name: "Failure"
+      command: cat "{{ deployment_folder }}"/version 
+      register: version
+      notify: server_stop_start    
+      when: status.status not in [200,201,202,203]
+      ignore_errors: True
+   handlers:
+    - name: server_stop_start
+      command: cat "{{ deployment_folder}}"/app.pid | xargs kill || -
+      notify: env_var_source
+      ignore_errors: True
+    - name: env_var_source
+      command: source "{{ deployment_folder }}/{{ version }}"/env.sh
+      notify: start_new_version
+    - name: start_new_version
+      command: cd "{{ deployment_folder }}/{{ version }}" && reaper.sh python app.py
+          
+  
