@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo $$ > app.pid
+echo $$ > ../app.pid
 exec "$@"
