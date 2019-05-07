@@ -9,6 +9,8 @@
       copy: 
         src: .
         dest: "{{ deployment_folder }}/{{ version }}"
+    - name: "Install dependencies"
+      command: pip install -r "{{ deployment_folder }}/{{ version }}"/requirements.txt 
       notify: server_stop_start
     - name: "Smoke test"
       uri: url=http://localhost:9000
