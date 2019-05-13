@@ -1,5 +1,5 @@
 pipeline {
-   agent Banking
+   agent { node 'Banking' }
    stages{
        stage('build'){
             steps{
