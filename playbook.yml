@@ -1,5 +1,5 @@
-\---
- - hosts: 127.0.0.1
+---
+ - hosts: dev-server
    tasks:
     - name: "Create new version folder"
       file:
