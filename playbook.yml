@@ -29,7 +29,7 @@
    handlers:
     - name: server_stop_start
       command: cat "{{ deployment_folder}}"/app.pid | xargs kill || -
-      notify: installing_dependencies
+      notify: env_var_source
       ignore_errors: True
     - name: installing_dependencies
       command: pip install -r "{{ deployment_folder}}/{{ version }}"/requirements.txt 
