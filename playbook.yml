@@ -11,20 +11,24 @@
         dest: "{{ deployment_folder }}/{{ version }}"
         mode: 755
       become: yes
+      become_user: root
     - name: "Install dependencies"
       command: pip install -r "{{ deployment_folder }}/{{ version }}"/requirements.txt 
       notify: server_stop_start
       become: yes
+      become_user: root
     - name: "Smoke test"
       uri: url=http://localhost:9000
       register: status
       ignore_errors: True
       become: yes
+      become_user: root
     - name: "Success"
       command: cat "{{ version }}" > "{{ deployment_folder }}"/version
       when: status.status in [200,201,202,203]
       ignore_errors: True
       become: yes
+      become_user: root
     - name: "Failure"
       command: cat "{{ deployment_folder }}"/version 
       register: version
@@ -32,21 +36,25 @@
       when: status.status not in [200,201,202,203]
       ignore_errors: True
       become: yes
+      become_user: root
    handlers:
     - name: server_stop_start
       command: cat "{{ deployment_folder}}"/app.pid | xargs kill || -
       notify: env_var_source
       ignore_errors: True
       become: yes
+      become_user: root
     - name: installing_dependencies
       command: pip install -r "{{ deployment_folder}}/{{ version }}"/requirements.txt 
       notify: env_var_source
       ignore_errors: True
       become: yes
+      become_user: root
     - name: env_var_source
       command: source "{{ deployment_folder }}/{{ version }}"/env.sh
       notify: start_new_version
     - name: start_new_version
       command: cd "{{ deployment_folder }}/{{ version }}" && reaper.sh python app.py
       become: yes     
+      become_user: root
   
