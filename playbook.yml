@@ -1,5 +1,5 @@
 ---
- - hosts: dev-server
+ - hosts: localhost
    tasks:
     - name: "Create new version folder"
       file:

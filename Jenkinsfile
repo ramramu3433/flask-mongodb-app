@@ -9,7 +9,7 @@ pipeline {
 }
         stage('deploy'){
              steps{
-                 ansiblePlaybook extras: '--extra-vars "deployment_folder=/home/ubuntu/app"  --extra-vars "version=$BUILD_NUMBER"', installation: 'ansible', playbook: 'playbook.yml'
+                 ansiblePlaybook extras: '--extra-vars "deployment_folder=/home/janakiraman/application_"  --extra-vars "version=$BUILD_NUMBER"', installation: 'ansible', playbook: 'playbook.yml'
 }
   }
   }
