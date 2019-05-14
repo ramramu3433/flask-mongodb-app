@@ -1,0 +1,21 @@
+---
+ - hosts: localhost
+   tasks:
+    - name: "stopp previous container"
+      docker_container:
+        name: "{{ image_name }}"
+        state: absent
+      become: true
+      become_user: root
+      ignore_errors: true  
+    - name: "Launch containers"
+      docker_container:
+        name: "{{ image_name }}"
+        image: "{{ image_name }}:{{ image_tag }}"
+        state: started
+        ports:
+         - "9000:9000"
+        detach: yes
+      become: true  
+      become_user: root
+
